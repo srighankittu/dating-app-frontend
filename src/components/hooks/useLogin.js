@@ -2,6 +2,7 @@ import { useState } from "react";
 import { login } from "../../api/auth/auth";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../store/userSlice";
+import { LoginContext } from "../../context/LoginContext";
 
 const useLogin = ({ email, password }) => {
   const [user, setUser] = useState(null);

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import useLogin from "./hooks/useLogin";
 import { useNavigate } from "react-router-dom";
+import { LoginContext } from "../context/LoginContext";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -9,10 +10,15 @@ const Login = () => {
     email,
     password,
   });
+  const [loginError, setLoginError] = useState(error);
+  const { setIsLoggedIn } = useContext(LoginContext);
   const onLogin = async () => {
     const success = await initiateLogin();
     if (success) {
-      navigate("/profile");
+      setIsLoggedIn(true);
+      navigate("/feed");
+    } else {
+      setLoginError(error);
     }
   };
   return (
@@ -67,8 +73,8 @@ const Login = () => {
             <p className="text-blue-500">{isLoading ? "Logging in..." : ""}</p>
             {error && (
               <p className="text-red-500">
-                {typeof error === "string"
-                  ? error
+                {typeof loginError === "string"
+                  ? loginError
                   : error.message || "Login failed"}
               </p>
             )}
