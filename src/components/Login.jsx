@@ -6,14 +6,14 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { initiateLogin, isLoading, error } = useLogin({
+  const { initiateLogin, isLoading, error, success } = useLogin({
     email,
     password,
   });
   const [loginError, setLoginError] = useState(error);
   const { setIsLoggedIn } = useContext(LoginContext);
   const onLogin = async () => {
-    const success = await initiateLogin();
+    await initiateLogin();
     if (success) {
       setIsLoggedIn(true);
       navigate("/feed");

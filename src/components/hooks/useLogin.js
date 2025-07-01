@@ -8,6 +8,7 @@ const useLogin = ({ email, password }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
   const dispatch = useDispatch();
   const initiateLogin = async () => {
     try {
@@ -15,17 +16,18 @@ const useLogin = ({ email, password }) => {
       const loggedInUserData = await login({ email, password });
       setUser(loggedInUserData);
       dispatch(addUser(loggedInUserData));
-      return true;
+      // return true;
+      setSuccess(true);
     } catch (err) {
       console.log(err);
       setError(err);
       setIsLoading(false);
-      return false;
+      setSuccess(false);
     } finally {
       setIsLoading(false);
     }
   };
-  return { initiateLogin, user, isLoading, error };
+  return { initiateLogin, user, isLoading, error, success };
 };
 
 export default useLogin;

@@ -10,10 +10,25 @@ import {
   Star,
   Info,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import useLogout from "./hooks/useLogout";
+import { useContext } from "react";
+import { LoginContext } from "../context/LoginContext";
 
 const Navbar = () => {
   const user = useSelector((store) => store.user);
-
+  const navigate = useNavigate();
+  const { initiateLogout } = useLogout();
+  const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
+  const logoutUser = async () => {
+    const success = await initiateLogout();
+    if (success) {
+      console.log("isSuccess");
+      setIsLoggedIn(false);
+      console.log("isLoggedIn:    ", isLoggedIn);
+      navigate("/login");
+    }
+  };
   return (
     <div className="relative">
       {/* Background with gradient */}
@@ -38,20 +53,19 @@ const Navbar = () => {
               >
                 <li>
                   <a className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-gradient-to-r hover:from-pink-100 hover:to-purple-100 transition-all duration-200">
-                    <Home className="w-4 h-4 text-purple-600" />
-                    <span className="text-gray-700 font-medium">Homepage</span>
-                  </a>
-                </li>
-                <li>
-                  <a className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-gradient-to-r hover:from-pink-100 hover:to-purple-100 transition-all duration-200">
-                    <Star className="w-4 h-4 text-purple-600" />
-                    <span className="text-gray-700 font-medium">Discover</span>
+                    <Info className="w-4 h-4 text-purple-600" />
+                    <span className="text-gray-700 font-medium">About</span>
                   </a>
                 </li>
                 <li>
                   <a className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-gradient-to-r hover:from-pink-100 hover:to-purple-100 transition-all duration-200">
                     <Info className="w-4 h-4 text-purple-600" />
-                    <span className="text-gray-700 font-medium">About</span>
+                    <span
+                      className="text-gray-700 font-medium"
+                      onClick={logoutUser}
+                    >
+                      Logout
+                    </span>
                   </a>
                 </li>
               </ul>

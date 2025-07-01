@@ -16,6 +16,7 @@ const Body = () => {
       navigate("/login");
     }
     if (isLoggedIn && isOnLoginPage) {
+      console.log("isLoggedIn: ", isLoggedIn);
       navigate("/feed");
     }
   }, [isLoggedIn, location, navigate]);

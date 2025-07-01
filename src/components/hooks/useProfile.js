@@ -14,6 +14,7 @@ const useProfile = () => {
   const getUserInfo = async () => {
     try {
       const userDetails = await user();
+      console.log(userDetails);
       setUserData(userDetails);
       dispatch(addUser(userDetails));
       setIsLoggedIn(true);
