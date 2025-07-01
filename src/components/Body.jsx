@@ -22,8 +22,9 @@ const Body = () => {
   }, [isLoggedIn, location, navigate]);
 
   useEffect(() => {
-    getUserInfo(); // fetch profile to check for login status
-  }, [navigate]);
+    console.log("isLoggedIn changed:", isLoggedIn);
+  }, [isLoggedIn]);
+
   return (
     <div>
       <Navbar />

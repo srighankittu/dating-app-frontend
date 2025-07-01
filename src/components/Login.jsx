@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import useLogin from "./hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../context/LoginContext";
@@ -11,16 +11,24 @@ const Login = () => {
     password,
   });
   const [loginError, setLoginError] = useState(error);
-  const { setIsLoggedIn } = useContext(LoginContext);
+  const { setIsLoggedIn, isLoggedIn } = useContext(LoginContext);
   const onLogin = async () => {
     await initiateLogin();
     if (success) {
       setIsLoggedIn(true);
+      console.log("Logged in? ", isLoggedIn);
       navigate("/feed");
     } else {
       setLoginError(error);
     }
   };
+
+  useEffect(() => {
+    if (success) {
+      setIsLoggedIn(true);
+      navigate("/feed");
+    }
+  }, [success, setIsLoggedIn, navigate]);
   return (
     <div className="flex justify-center">
       <div className="card w-96 bg-base-100 shadow-xl mt-20 mb-20">
