@@ -4,18 +4,23 @@ import Footer from "./Footer";
 import { useContext, useEffect } from "react";
 import { LoginContext } from "../context/LoginContext";
 import useProfile from "./hooks/useProfile";
+import { useSelector } from "react-redux";
 
 const Body = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { isLoggedIn } = useContext(LoginContext);
   const { getUserInfo } = useProfile();
+  const user = useSelector((state) => state.user);
+  useEffect(() => {
+    getUserInfo();
+  }, []);
   useEffect(() => {
     const isOnLoginPage = location.pathname === "/login";
-    if (!isLoggedIn && !isOnLoginPage) {
+    if (!user && !isOnLoginPage) {
       navigate("/login");
     }
-    if (isLoggedIn && isOnLoginPage) {
+    if (user && isOnLoginPage) {
       console.log("isLoggedIn: ", isLoggedIn);
       navigate("/feed");
     }
